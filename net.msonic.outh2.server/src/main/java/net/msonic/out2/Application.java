@@ -73,9 +73,15 @@ public class Application {
 		
 		@Autowired
 		private CustomUserDetailsService userDetailsService;
+		
+		@Autowired
+		private CustomAuthenticationProvider customAuthenticationProvider;
 
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+			
+			endpoints.authenticationManager(customAuthenticationProvider);
+			
 			endpoints
 			 	.tokenStore(tokenStore())
 				.authenticationManager(authenticationManager);
@@ -87,6 +93,7 @@ public class Application {
 			// @formatter:off
 			
 			clients.jdbc(dataSource);  // If you want to maintain client details is database
+			
 			
 			/*
 			clients.inMemory().
